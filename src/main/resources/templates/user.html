@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>About me</title>
+    <link href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <link href="../static/css/signin.css" th:href="@{/css/app.css}" rel="stylesheet">
+</head>
+<body>
+<div class="generic-container">
+    <div th:insert="fragments/authheader :: authheader"></div>
+    <div class="panel panel-default">
+        <div class="panel-heading"><span class="lead">About me</span></div>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Login</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Roles</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.firstname}"></td>
+            <td th:text="${user.surname}"></td>
+
+            <td>
+            <th:block th:each="role : ${user.roles}">
+                <th:block th:with="roles=${role.name}">
+                    <span th:text="${role.name}"></span>
+                </th:block>
+            </th:block>
+            </td>
+
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

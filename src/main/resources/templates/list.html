@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <link href="../static/css/signin.css" th:href="@{/css/app.css}" rel="stylesheet">
+</head>
+<body>
+<div class="generic-container">
+    <a th:href="@{/user}">List</a>
+    <div th:insert="fragments/authheader :: authheader"></div>
+    <div class="panel panel-default">
+        <div class="panel-heading"><span class="lead">List of Users</span></div>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Login</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Roles</th>
+                <div sec:authorize="hasRole('ADMIN')">
+                    <th width="100"></th>
+                </div>
+                <div sec:authorize="hasRole('ADMIN')">
+                    <th width="100"></th>
+                </div>
+            </tr>
+            </thead>
+
+            <tbody>
+            <th:block th:each="user: ${users}">
+                <tr>
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.firstname}"></td>
+                    <td th:text="${user.surname}"></td>
+                    <td>
+                        <th:block th:each="role : ${user.roles}">
+                            <th:block th:with="roles=${role.name}">
+                                <span th:text="${role.name}"></span>
+                            </th:block>
+                        </th:block>
+                    </td>
+                    <div sec:authorize="hasRole('ADMIN')">
+                        <td><a th:href="@{/admin/edit/{id} (id=${user.id})}" class="btn btn-success custom-width">edit</a>
+                        </td>
+                    </div>
+                    <div sec:authorize="hasRole('ADMIN')">
+                        <td><a th:href="@{/admin/delete/{id} (id=${user.id})}" class="btn btn-success custom-width">delete</a>
+                        </td>
+                    </div>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+    <div sec:authorize access="hasRole('ADMIN')">
+        <div class="well">
+            <a th:href="@{/admin/add}">Add New User</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
